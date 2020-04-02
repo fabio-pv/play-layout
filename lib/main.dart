@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:play_layout/Screens/home.dart';
 import 'package:play_layout/Screens/login.dart';
 
 void main() => runApp(App());
@@ -11,7 +12,11 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.purple,
       ),
-      home: Login(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => Login(),
+        '/home': (context) => Home(),
+      },
     );
   }
 }
