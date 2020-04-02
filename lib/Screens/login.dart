@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:play_layout/Models/token.dart';
 import 'package:http/http.dart' as http;
+import 'package:play_layout/Screens/home.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -32,7 +33,7 @@ class _LoginState extends State<Login> {
 
     Token token = Token.fromJson(jsonDecode(response.body));
 
-    print(token.accessToken);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
   }
 
   @override
