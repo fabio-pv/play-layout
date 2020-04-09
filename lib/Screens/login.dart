@@ -4,35 +4,59 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:play_layout/Models/token.dart';
 import 'package:http/http.dart' as http;
+import 'package:play_layout/Services/loginService.dart';
 
 class Login extends StatefulWidget {
   @override
-  _LoginState createState() => _LoginState();
+  _LoginState createState() => _LoginState(new LoginService());
 }
 
 class _LoginState extends State<Login> {
+  final LoginService loginService;
+
+  _LoginState(this.loginService);
+
   @override
   void initState() {
     super.initState();
   }
 
-  var emailController = TextEditingController();
-  var passwordController = TextEditingController();
+  var emailController = TextEditingController(text: 'admin@vr.com.br');
+  var passwordController = TextEditingController(text: '1234');
 
-  Future<Token> doAuth() async {
-    final String email = emailController.text;
-    final String password = passwordController.text;
+  void doLogin() async {
+    try {
+      final String email = emailController.text;
+      final String password = passwordController.text;
 
-    final response = await http.post('http://192.168.0.7:666/api/v1/login',
-        body: {'email': email, 'password': password});
+      final token = await loginService.doAuth(email, password);
 
-    if (response.statusCode != 200) {
-      throw Exception('Falhah');
+      await loginService.saveToken(token.token);
+
+      Navigator.pushNamed(context, '/home');
+    } catch (e) {
+      print('****************' + e.toString());
+      showAlert();
     }
+  }
 
-    Token token = Token.fromJson(jsonDecode(response.body));
-
-    Navigator.pushNamed(context, '/home');
+  void showAlert() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Não foi possivel entrar'),
+            content: Text('Corpo aqui oh'),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('Fechar'),
+              )
+            ],
+          );
+        });
   }
 
   @override
@@ -84,7 +108,7 @@ class _LoginState extends State<Login> {
                 margin: EdgeInsets.only(top: 20),
                 child: RaisedButton(
                   onPressed: () {
-                    doAuth();
+                    doLogin();
                   },
                   child: Container(
                     width: 80,
