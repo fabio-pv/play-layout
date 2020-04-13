@@ -27,7 +27,7 @@ class HomeDetail extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 25.0,
+                  fontSize: 20.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -35,7 +35,7 @@ class HomeDetail extends StatelessWidget {
                 args.post.body,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.cyanAccent,
+                  color: Colors.greenAccent[200],
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
                 ),
