@@ -2,8 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:play_layout/Models/token.dart';
-import 'package:http/http.dart' as http;
 import 'package:play_layout/Services/loginService.dart';
 
 class Login extends StatefulWidget {
@@ -29,9 +27,9 @@ class _LoginState extends State<Login> {
       final String email = emailController.text;
       final String password = passwordController.text;
 
-      final token = await loginService.doAuth(email, password);
+      /*final token = await loginService.doAuth(email, password);
 
-      await loginService.saveToken(token.token);
+      await loginService.saveToken(token.token);*/
 
       Navigator.pushNamed(context, '/home');
     } catch (e) {
