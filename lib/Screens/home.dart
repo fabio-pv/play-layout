@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:play_layout/Models/post.dart';
 import 'package:play_layout/Screens/home_detail.dart';
+import 'package:play_layout/Screens/home_list.dart';
+import 'package:play_layout/Screens/home_load.dart';
 import 'package:play_layout/ScreensArguments/home_detail_argument.dart';
 import 'package:play_layout/Services/homeService.dart';
 
@@ -50,41 +54,18 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: widget.posts.length == 0 ? Colors.purple : null,
       appBar: AppBar(
-        title: Text('Home'),
+        elevation: widget.posts.length == 0 ? 0 : null,
+        title: widget.posts.length == 0 ? null : Text('Home'),
         automaticallyImplyLeading: false,
       ),
-      body: ListView.builder(
-        padding: EdgeInsets.all(15.0),
-        itemCount: widget.posts.length,
-        itemBuilder: (BuildContext ctxt, int index) {
-          final post = widget.posts[index];
-          return Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
+      body: widget.posts.length == 0
+          ? HomeLoad()
+          : HomeList(
+              posts: widget.posts,
+              showDetails: this.showDetail,
             ),
-            child: InkWell(
-              onTap: () {
-                showDetail(post);
-              },
-              child: Container(
-                padding: EdgeInsets.all(20.0),
-                height: 100,
-                child: Center(
-                  child: Text(
-                    post.title,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
-      ),
     );
   }
 }
